@@ -1,0 +1,37 @@
+_ContinuousAdoptRealWorldPosition Strategies for TradeStation
+
+USE: Insert on any chart along with any strategies where you want the strategies  
+to continuously adopt the real-world position (if you are entering manual orders  
+to change the position while the strategies are running).  This then allows one to   
+continuously interact with a strategy using manual orders and the strategy will   
+always stay in sync with the manual position.  
+  
+You MUST ENABLE ADOPT THE REAL-WORLD POSITION on the Automation Tab of the  
+Strategy Properties Window.  You must also enable full automation.  
+  
+This can be used to test strategies in the Simulation Mode.  
+  
+  
+APPROACH:  Forces all strategies inserted on the same chart to continuously   
+Adopt the real-world position (if Adopt the real-world position is enabled  
+on the Automation Tab of the Strategy Properties Window) by checking if   
+there is a position mismatch between the strategy market position and the  
+actual position returned by the Position Provider Object.  If the two are out  
+of sync for more than the specified PosMisMatchTimeOutMS parameter, then this  
+function throws a RecalcException, which causes all strategies on the chart to restart.  
+Assuming that Adopt the real-world position is enabled on the Automation Tab  
+this will cause the strategy to re-adopt the correct real-world position.  
+  
+The PosMisMatchTimeOutMS parameter specifies the number of milliseconds allowed for  
+the market position and the actual position to remain out of sync, before the  
+recalc exception is thrown to restart all strategies.  A value of 1000 means  
+to wait 1,000 milliseconds, or one second before correcting an out of sync  
+market position.  It is recommended that you allow one(1) or several seconds  
+for the out of sync condition to naturally self-correct, unless you are planning  
+to frequently enter manual orders, or that your strategy must very quickly  
+respond to changes in the market position (running on ticks).  
+
+
+Original file location can be found here: https://community.tradestation.com/Discussions/Topic.aspx?Topic_ID=136856&Page=2
+
+Versions v0 through v5 and MK version are included in this folder for reference.
